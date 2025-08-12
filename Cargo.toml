@@ -1,0 +1,10 @@
+[workspace]
+members = ["kairos-core", "kairos-scheduler"]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+
+[build]
+rustflags = ["-C", "target-cpu=native", "-C", "opt-level=3", "-C", "lto=thin", "-C", "codegen-units=1"]

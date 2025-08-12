@@ -1,0 +1,29 @@
+[package]
+name = "kairos-core"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+# Por padrão, use std + backend std (bom para desktop/test/bench)
+default = ["std", "autoclock-std"]
+
+# Liga std no crate (habilita usar std::*)
+std = ["autoclock-soft"]
+
+# Opcional: habilitar alocação em no_std
+alloc = []
+
+# Seletor de backends do AutoClock — escolha exatamente UM
+autoclock-std = ["std"]           # backend baseado em std::time::Instant
+autoclock-systick = []            # backend no_std (Cortex-M, bare metal)
+autoclock-cyccnt = []             # (se for ter um backend no_std por ciclo/rdtsc etc)
+autoclock-soft    = [] 
+
+# Auxiliar (se você usa guards em benchs/tests)
+bench-guards = []
+
+[dependencies]
+heapless = "0.8"
+
+[dev-dependencies]
+criterion = "0.5"

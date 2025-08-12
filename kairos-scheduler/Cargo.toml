@@ -1,0 +1,24 @@
+[package]
+name = "kairos-scheduler"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+bench-guards = ["kairos-core/bench-guards"]
+default = ["std"]
+std = []  
+autoclock-std = ["kairos-core/std", "kairos-core/autoclock-std"]
+autoclock-cyccnt = ["kairos-core/autoclock-cyccnt"]
+autoclock-systick = ["kairos-core/autoclock-systick"]  
+autoclock-soft  = ["kairos-core/autoclock-soft"]
+
+[dependencies]
+kairos-core = { path = "../kairos-core", default-features = false }
+
+[dev-dependencies]
+kairos-core = { path = "../kairos-core", features = ["std", "bench-guards"] }
+criterion = "0.5"
+
+[[bench]]
+name = "clock_bench"
+harness = false
