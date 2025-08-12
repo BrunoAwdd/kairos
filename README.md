@@ -187,7 +187,7 @@ cargo build --target wasm32-wasip1 --no-default-features --features autoclock-so
 
 ## 📜 License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE.md).
 
 ---
 
