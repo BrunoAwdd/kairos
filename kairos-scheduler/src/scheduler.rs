@@ -5,9 +5,10 @@ use kairos_core::{Clock, VInstant, VDuration};
 /// Represents a scheduled event.
 /// `at` is the virtual time when the event should fire.
 /// `payload` is the associated data to be passed to the event handler.
+#[derive(Debug)]
 pub struct Event<T> {
-    at: VInstant,
-    payload: T,
+    pub at: VInstant,
+    pub payload: T,
 }
 
 // Priority queue ordering: earliest event = highest priority.
