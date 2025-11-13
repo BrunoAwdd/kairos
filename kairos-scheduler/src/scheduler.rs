@@ -63,7 +63,7 @@ impl<T, C: Clock> Scheduler<T, C> {
 
     /// Runs all events up to a target time.
     /// Advances the clock as events are processed.
-    pub fn run_until<F: FnMut(T)>(&mut self, target: VInstant, mut on_event: F) {
+    pub fn run_until<F: FnMut(VInstant, T)>(&mut self, target: VInstant, mut on_event: F) {
         while let Some(ev) = self.pq.peek() {
             if ev.at > target {
                 break;
@@ -71,7 +71,7 @@ impl<T, C: Clock> Scheduler<T, C> {
             let ev = self.pq.pop().unwrap();
             let delta = ev.at - self.clock.now();
             self.clock.advance(delta);
-            on_event(ev.payload);
+            on_event(self.clock.now(), ev.payload);
         }
         // Advance to the target time even if no events remain.
         let remaining = target - self.clock.now();
