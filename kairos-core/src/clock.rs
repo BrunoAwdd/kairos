@@ -1,4 +1,15 @@
+use core::prelude::v1::*;
 use crate::{VInstant, VDuration};
+use core::convert::From;
+use core::option::Option::Some;
+use core::option::Option;
+use core::cmp::PartialOrd;
+use core::cmp::Ord;
+use core::default::Default;
+use core::cmp::Eq;
+use core::assert;
+use core::panic;
+use core::unreachable;
 
 /// Source of monotonic *virtual* time.
 pub trait Clock {
@@ -9,7 +20,7 @@ pub trait Clock {
 }
 
 /// Manually-driven virtual clock (deterministic).
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub struct ManualClock { now: VInstant }
 impl ManualClock {
     #[inline(always)]
@@ -166,7 +177,7 @@ impl<C: Clock> KairosHlc<C> {
         } else {
             self.last.log = 0;
         }
-        self.last
+        self.last.clone()
     }
 }
 // 16 bytes, aligned:
@@ -193,7 +204,7 @@ impl<C: Clock> KairosHlc<C> {
         Self { clk: clock, last: KairosTs { phys_ns: base, log: 0, node } }
     }
     #[inline(always)]
-    pub fn last(&self) -> KairosTs { self.last }
+    pub fn last(&self) -> KairosTs { self.last.clone() }
 }
 
 #[test]
