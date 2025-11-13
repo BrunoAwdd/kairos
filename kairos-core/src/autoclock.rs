@@ -223,20 +223,20 @@ use systick_backend::ClockImpl as SystickClock;
 /* ---------------------- BACKEND SOFT (no_std, portable) ------------------- */
 
 #[cfg(feature = "autoclock-soft")]
-mod soft_backend {
-    use core::sync::atomic::{AtomicU64, Ordering};
+pub mod soft_backend {
+    use core::sync::atomic::{AtomicU32, Ordering};
     use crate::{Clock, VInstant, VDuration};
 
     // Global counter in ns (portable)
-    static NS: AtomicU64 = AtomicU64::new(0);
+    static NS: AtomicU32 = AtomicU32::new(0);
 
     #[inline(always)]
-    fn add_ns(ns: u64) {
+    pub fn add_ns(ns: u32) {
         NS.fetch_add(ns, Ordering::Relaxed);
     }
 
     #[inline(always)]
-    fn load_ns() -> u64 {
+    fn load_ns() -> u32 {
         NS.load(Ordering::Relaxed)
     }
 
@@ -244,7 +244,7 @@ mod soft_backend {
     pub fn reset_ns() { NS.store(0, Ordering::Relaxed); }
 
     #[inline(always)]
-    pub fn set_ns(ns: u64) { NS.store(ns, Ordering::Relaxed); }
+    pub fn set_ns(ns: u32) { NS.store(ns, Ordering::Relaxed); }
 
     /// Portable backend without `std`: read = atomic load; advance = atomic add.
     pub struct SoftClock;
@@ -255,16 +255,16 @@ mod soft_backend {
 
         /// Useful helpers for tests/benchmarks
         #[inline(always)]
-        pub fn tick_ns(ns: u64) { add_ns(ns); }
+        pub fn tick_ns(ns: u32) { add_ns(ns); }
 
         #[inline(always)]
-        pub fn tick_ms(ms: u64) { add_ns(ms.saturating_mul(1_000_000)); }
+        pub fn tick_ms(ms: u32) { add_ns(ms.saturating_mul(1_000_000)); }
     }
 
     impl Clock for SoftClock {
         #[inline(always)]
         fn now(&self) -> VInstant {
-            VInstant(load_ns())
+            VInstant(load_ns() as u64)
         }
 
         #[inline(always)]
