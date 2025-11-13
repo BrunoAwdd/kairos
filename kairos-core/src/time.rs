@@ -95,6 +95,12 @@ impl core::ops::AddAssign for VDuration {
 
 /* ---- Interop with core::time::Duration ---- */
 
+impl From<VDuration> for VInstant {
+    fn from(d: VDuration) -> Self {
+        VInstant(d.0)
+    }
+}
+
 impl From<core::time::Duration> for VDuration {
     #[inline(always)]
     fn from(d: core::time::Duration) -> Self {
