@@ -1,10 +1,16 @@
 [workspace]
-members = ["kairos-core", "kairos-scheduler"]
+members = ["kairos-core", "kairos-scheduler", "tests/minimal-no-std"]
 resolver = "2"
 
 [workspace.package]
 edition = "2021"
 license = "MIT"
+
+[workspace.dependencies]
+dhat = "0.3.3"
+
+[profile.release]
+debug = 1
 
 [build]
 rustflags = ["-C", "target-cpu=native", "-C", "opt-level=3", "-C", "lto=thin", "-C", "codegen-units=1"]

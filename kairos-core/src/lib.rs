@@ -31,7 +31,7 @@ pub mod calendar;
 // ── High-level re-exports ────────────────────────────────────────────────────
 pub use autoclock::AutoClock;
 pub use time::{VInstant, VDuration};
-pub use clock::{Clock, ManualClock, RateClock};
+pub use clock::{Clock, ManualClock, RateClock, StdClock, KairosHlc, KairosTs, KairosTs16};
 pub use calendar::Calendar;
 
 // Expose which backend was compiled, handy for debugging/benches.

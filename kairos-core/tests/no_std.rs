@@ -26,5 +26,13 @@ mod tests {
         // Avança 2 ms (2_000_000 ns)
         SoftClock::tick_ms(2);
         assert_eq!(clk.now().0, 1_000 + 2_000_000, "now() deve refletir +2ms");
+
+        println!("timings: {:?}", clk.now().0);
+        println!("timings: {:?}", clk.now().0);
+        println!("timings: {:?}", clk.now().0);
+        println!("timings: {:?}", clk.now().0);
+        println!("timings: {:?}", clk.now().0);
+        println!("timings: {:?}", clk.now().0);
+        println!("timings: {:?}", clk.now().0);
     }
 }

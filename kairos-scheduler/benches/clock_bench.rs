@@ -1,14 +1,27 @@
 use criterion::{criterion_group, criterion_main, Criterion, SamplingMode};
-use kairos_core::{ManualClock, RateClock, Clock, VDuration};
+use kairos_core::{Clock, ManualClock, RateClock, VDuration};
+use kairos_scheduler::Scheduler;
 use std::time::{Instant, SystemTime};
 
-#[cfg(any(feature = "autoclock-std", feature = "autoclock-soft", feature = "autoclock-systick"))]
+#[cfg(any(
+    feature = "autoclock-std",
+    feature = "autoclock-soft",
+    feature = "autoclock-systick"
+))]
 use kairos_core::autoclock::AutoClock;
 
+#[cfg(feature = "dhat-heap")]
+use dhat::{Alloc, Profiler};
 
+#[cfg(feature = "dhat-heap")]
+#[global_allocator]
+static ALLOCATOR: Alloc = Alloc;
 
 fn bench_clocks(c: &mut Criterion) {
-    println!("AutoClock backend: {}", kairos_core::autoclock::WHICH_BACKEND);
+    println!(
+        "AutoClock backend: {}",
+        kairos_core::autoclock::WHICH_BACKEND
+    );
 
     let mut group = c.benchmark_group("clocks");
     group.sample_size(200);
@@ -41,10 +54,12 @@ fn bench_clocks(c: &mut Criterion) {
 
     // 0) (vai dar ~0 ps se o compilador otimizar)
     let kairos_cold = ManualClock::new();
-    group.bench_function("kairos_now (otimizável)", |b| b.iter(|| {
-        let _ = std::hint::black_box(&kairos_cold);
-        let _ = kairos_cold.now();
-    }));
+    group.bench_function("kairos_now (otimizável)", |b| {
+        b.iter(|| {
+            let _ = std::hint::black_box(&kairos_cold);
+            let _ = kairos_cold.now();
+        })
+    });
 
     // 1) leitura forçada (load real)
     //group.bench_function("kairos_now_volatile", |b| {
@@ -76,13 +91,36 @@ fn bench_clocks(c: &mut Criterion) {
     });
 
     // 4) Referências do SO
-    group.bench_function("instant_now", |b| b.iter(|| { let _ = Instant::now(); }));
-    group.bench_function("systemtime_now", |b| b.iter(|| { let _ = SystemTime::now(); }));
-
-
+    group.bench_function("instant_now", |b| {
+        b.iter(|| {
+            let _ = Instant::now();
+        })
+    });
+    group.bench_function("systemtime_now", |b| {
+        b.iter(|| {
+            let _ = SystemTime::now();
+        })
+    });
 
     group.finish();
 }
 
-criterion_group!(benches, bench_clocks);
+#[cfg(feature = "dhat-heap")]
+fn bench_memory(_c: &mut Criterion) {
+    let _dhat = Profiler::new_heap();
+
+    let mut scheduler = Scheduler::new(ManualClock::new());
+    for i in 0..100 {
+        scheduler
+            .schedule_in(VDuration::from_millis(i), i as u8);
+    }
+    // O Dhat vai gerar o relatório de memória quando `_dhat` for dropado no fim do escopo.
+}
+
+#[cfg(not(feature = "dhat-heap"))]
+fn bench_memory(_c: &mut Criterion) {
+    // this is a no-op when `dhat-heap` is not enabled
+}
+
+criterion_group!(benches, bench_clocks, bench_memory);
 criterion_main!(benches);

@@ -68,7 +68,7 @@ fn calendar_anchor_sem_dobro_de_fuso() {
     // Âncora LOCAL: 2025-08-11 00:00 no fuso -03
     let cal_local = Calendar::new()
         .with_epoch_local(2025, 8, 11)
-        .with_tz_offset_secs(0 * 3600);
+        .with_tz_offset_secs(-3 * 3600);
 
     let mut c = ManualClock::new();
     c.advance(VDuration::from_secs(12*3600 + 34*60 + 56));
@@ -84,5 +84,13 @@ fn calendar_anchor_sem_dobro_de_fuso() {
 
     let s_utc = cal_utc.format(c.now());
     println!("utc     = {s_utc}");
-    assert_eq!(s_utc, "2025-08-11T12:34:56.789-03:00");
+    assert_eq!(s_utc, "2025-08-11T09:34:56.789-03:00");
+}
+
+#[test]
+fn calendar_to_civil_utc() {
+    let cal = Calendar::new().with_epoch(2025, 1, 1);
+    let t = VInstant::from(VDuration::from_secs(12 * 3600)); // 12 hours
+    let (y, m, d, h, ..) = cal.to_civil(t);
+    assert_eq!((y, m, d, h), (2025, 1, 1, 12));
 }

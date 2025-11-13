@@ -6,11 +6,12 @@ edition = "2021"
 [features]
 bench-guards = ["kairos-core/bench-guards"]
 default = ["std"]
-std = []  
+std = []
 autoclock-std = ["kairos-core/std", "kairos-core/autoclock-std"]
 autoclock-cyccnt = ["kairos-core/autoclock-cyccnt"]
-autoclock-systick = ["kairos-core/autoclock-systick"]  
+autoclock-systick = ["kairos-core/autoclock-systick"]
 autoclock-soft  = ["kairos-core/autoclock-soft"]
+dhat-heap = []
 
 [dependencies]
 kairos-core = { path = "../kairos-core", default-features = false }
@@ -18,6 +19,8 @@ kairos-core = { path = "../kairos-core", default-features = false }
 [dev-dependencies]
 kairos-core = { path = "../kairos-core", features = ["std", "bench-guards"] }
 criterion = "0.5"
+dhat = "0.3.3"
+
 
 [[bench]]
 name = "clock_bench"

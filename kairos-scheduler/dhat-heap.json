@@ -1,0 +1,54 @@
+{
+"dhatFileVersion": 2,
+"mode": "rust-heap",
+"verb": "Allocated",
+"bklt": true,
+"bkacc": false,
+"tu": "µs",
+"Mtu": "s",
+"tuth": 10,
+"cmd": "/home/bruno/projects/kairos/target/release/deps/clock_bench-5bb91650f7ec8655 --nocapture --bench",
+"pid": 217990,
+"tg": 15,
+"te": 16,
+"pps": [
+{
+"tb": 4032,
+"tbk": 6,
+"tl": 0,
+"mb": 2048,
+"mbk": 1,
+"gb": 2048,
+"gbk": 1,
+"eb": 0,
+"ebk": 0,
+"fs": [
+1,
+2,
+3,
+4,
+5,
+6,
+7,
+8,
+9,
+10,
+11
+]
+}
+],
+"ftbl": [
+"[root]",
+"0x559ca9a5eec6: <dhat::Alloc as core::alloc::global::GlobalAlloc>::alloc (dhat-0.3.3/src/lib.rs:1176:9)",
+"0x559ca9a0eb17: alloc::raw_vec::finish_grow (src/raw_vec/mod.rs:0:0)",
+"0x559ca9a4948c: alloc::raw_vec::RawVecInner<A>::grow_amortized (src/raw_vec/mod.rs:664:19)",
+"0x559ca9a4948c: alloc::raw_vec::RawVecInner<A>::grow_one (src/raw_vec/mod.rs:571:32)",
+"0x559ca9a4948c: alloc::raw_vec::RawVec<T,A>::grow_one (src/raw_vec/mod.rs:340:20)",
+"0x559ca9a58d24: alloc::vec::Vec<T,A>::push (src/vec/mod.rs:2480:22)",
+"0x559ca9a58d24: alloc::collections::binary_heap::BinaryHeap<T,A>::push (collections/binary_heap/mod.rs:686:19)",
+"0x559ca9a58d24: kairos_scheduler::scheduler::Scheduler<T,C>::schedule_in (kairos-scheduler/src/scheduler.rs:61:17)",
+"0x559ca9a58d24: clock_bench::bench_memory (kairos-scheduler/benches/clock_bench.rs:115:14)",
+"0x559ca9a58d24: clock_bench::benches (criterion-0.5.1/src/macros.rs:71:17)",
+"0x559ca9a58d24: clock_bench::main (criterion-0.5.1/src/macros.rs:124:17)"
+]
+}

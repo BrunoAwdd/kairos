@@ -8,7 +8,7 @@ edition = "2021"
 default = ["std", "autoclock-std"]
 
 # Liga std no crate (habilita usar std::*)
-std = ["autoclock-soft"]
+std = []
 
 # Opcional: habilitar alocação em no_std
 alloc = []
@@ -27,3 +27,7 @@ heapless = "0.8"
 
 [dev-dependencies]
 criterion = "0.5"
+
+[[example]]
+name = "no_std_smoke"
+test = false
