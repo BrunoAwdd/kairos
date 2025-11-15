@@ -26,7 +26,6 @@ bench-guards = []
 heapless = "0.8"
 
 [dev-dependencies]
-criterion = "0.5"
 
 [[example]]
 name = "no_std_smoke"

@@ -9,6 +9,9 @@ license = "MIT"
 [workspace.dependencies]
 dhat = "0.3.3"
 
+[workspace.dev-dependencies]
+criterion = "0.5"
+
 [profile.release]
 debug = 1
 
