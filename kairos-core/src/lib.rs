@@ -27,12 +27,21 @@ pub mod autoclock;
 pub mod time;
 pub mod clock;
 pub mod calendar;
+pub mod hlc;
 
 // ── High-level re-exports ────────────────────────────────────────────────────
 pub use autoclock::AutoClock;
 pub use time::{VInstant, VDuration};
-pub use clock::{Clock, ManualClock, RateClock, StdClock, KairosHlc, KairosTs, KairosTs16};
+pub use clock::Clock;
+pub use clock::manual::ManualClock;
+pub use clock::rate::RateClock;
+#[cfg(feature = "std")]
+pub use clock::std::StdClock;
+pub use hlc::{KairosHlc, KairosTs, KairosTs16};
 pub use calendar::Calendar;
+
+#[cfg(all(feature = "autoclock-systick", any(target_arch = "arm", target_arch = "aarch64")))]
+pub use autoclock::configure_systick;
 
 // Expose which backend was compiled, handy for debugging/benches.
 #[doc(hidden)]
