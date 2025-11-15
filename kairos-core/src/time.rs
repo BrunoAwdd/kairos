@@ -5,6 +5,12 @@
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Ord, PartialOrd)]
 pub struct VInstant(pub u64);
 
+impl VInstant {
+    /// Get the timestamp in nanoseconds (identity).
+    #[inline(always)]
+    pub const fn as_nanos(self) -> u64 { self.0 }
+}
+
 /// Virtual duration in **nanoseconds**.
 /// Construction helpers are **saturating** to avoid overflow on large inputs.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
