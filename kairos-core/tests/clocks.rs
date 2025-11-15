@@ -2,7 +2,7 @@ use kairos_core::{RateClock, Clock, VDuration, VInstant, StdClock};
 
 #[test]
 fn rate_clock_new() {
-    let clock = RateClock::new();
+    let clock: RateClock = RateClock::new();
     assert_eq!(clock.now(), VInstant(0));
 }
 
@@ -15,7 +15,7 @@ fn rate_clock_with_rate() {
 
 #[test]
 fn rate_clock_set_rate() {
-    let mut clock = RateClock::new();
+    let mut clock: RateClock = RateClock::new();
     clock.set_rate(1, 2); // 0.5x speed
     clock.tick(VDuration::from_secs(2));
     assert_eq!(clock.now(), VInstant::from(VDuration::from_secs(1)));
@@ -23,7 +23,7 @@ fn rate_clock_set_rate() {
 
 #[test]
 fn rate_clock_set_rate_den_zero() {
-    let mut clock = RateClock::new();
+    let mut clock: RateClock = RateClock::new();
     clock.set_rate(1, 0); // den = 0 should be treated as 1
     clock.tick(VDuration::from_secs(1));
     assert_eq!(clock.now(), VInstant::from(VDuration::from_secs(1)));
@@ -31,7 +31,7 @@ fn rate_clock_set_rate_den_zero() {
 
 #[test]
 fn rate_clock_advance() {
-    let mut clock = RateClock::new();
+    let mut clock: RateClock = RateClock::new();
     clock.advance(VDuration::from_secs(10));
     assert_eq!(clock.now(), VInstant::from(VDuration::from_secs(10)));
 }
