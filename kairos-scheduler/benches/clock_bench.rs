@@ -37,6 +37,7 @@ fn bench_clocks(c: &mut Criterion) {
         })
     });
 
+    #[cfg(feature = "autoclock-soft")]
     group.bench_function("autoclock_now (soft via AutoClock)", |b| {
         let auto = kairos_core::autoclock::AutoClock::new();
         assert!(matches!(kairos_core::autoclock::WHICH_BACKEND, "soft"));
@@ -111,8 +112,8 @@ fn bench_memory(_c: &mut Criterion) {
 
     let mut scheduler = Scheduler::new(ManualClock::new());
     for i in 0..100 {
-        scheduler
-            .schedule_in(VDuration::from_millis(i), i as u8);
+        let _ = scheduler
+            .schedule_in(VDuration::from_millis(i), i as u8).unwrap();
     }
     // O Dhat vai gerar o relatório de memória quando `_dhat` for dropado no fim do escopo.
 }
