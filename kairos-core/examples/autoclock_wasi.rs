@@ -10,6 +10,7 @@ pub extern "C" fn autoclock_init() {
 }
 
 #[no_mangle]
+#[allow(static_mut_refs)]
 pub extern "C" fn autoclock_now_ns() -> u64 {
     unsafe {
         let clk = CLK.as_ref().expect("autoclock_init not called");

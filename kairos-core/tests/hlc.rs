@@ -40,7 +40,7 @@ fn hlc_observe_last_greater() {
 
 #[test]
 fn hlc_observe_incoming_greater() {
-    let mut clock = ManualClock::default();
+    let clock = ManualClock::default();
     let mut hlc = KairosHlc::new(clock.clone(), 1);
     
     let mut clock2 = ManualClock::default();
