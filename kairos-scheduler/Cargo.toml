@@ -6,7 +6,8 @@ edition = "2021"
 [features]
 bench-guards = ["kairos-core/bench-guards"]
 default = ["std"]
-std = []
+std = ["priority-queue/std"]
+alloc = ["priority-queue", "ahash"]
 autoclock-std = ["kairos-core/std", "kairos-core/autoclock-std"]
 autoclock-cyccnt = ["kairos-core/autoclock-cyccnt"]
 autoclock-systick = ["kairos-core/autoclock-systick"]
@@ -15,6 +16,9 @@ dhat-heap = []
 
 [dependencies]
 kairos-core = { path = "../kairos-core", default-features = false }
+heapless = "0.8"
+priority-queue = { version = "2.7.0", default-features = false, optional = true }
+ahash = { version = "0.8", default-features = false, optional = true }
 
 [dev-dependencies]
 kairos-core = { path = "../kairos-core", features = ["std", "bench-guards"] }
