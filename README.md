@@ -91,11 +91,15 @@ fn main() {
     let mut sched = Scheduler::new(AutoClock::new());
 
     // fire in +500ms
-    sched.schedule_in(VDuration::from_millis(500), "Hello, world!");
+    let event_id = sched.schedule_in(VDuration::from_millis(500), "Hello, world!").unwrap();
+
+    // cancel the event
+    sched.cancel(event_id);
 
     // run until +1s
     let target = sched.now() + VDuration::from_secs(1);
-    sched.run_until(target, |msg| {
+    sched.run_until(target, |_, msg| {
+        // this will not be called
         println!("event: {msg}");
     });
 }
