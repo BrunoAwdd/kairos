@@ -3,6 +3,5 @@ run_wasi.js
 run_wasm.js
 Cargo.lock
 tests/*
-TODO.md
 todo.md
 METRICS.md
